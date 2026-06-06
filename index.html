@@ -555,7 +555,6 @@
     </main>
 
     <script>
-      
       let eventsInventory =
         JSON.parse(localStorage.getItem("eventsData")) || [];
 
@@ -633,16 +632,28 @@
         updateUI();
       }
 
-      
       function triggerBroadcast(id) {
-       
+        eventsInventory = eventsInventory.map((item) => {
+          if (item.id === id) {
+            item.status = "Active";
+          }
+          return item;
+        });
+        localStorage.setItem("eventsData", JSON.stringify(eventsInventory));
+        updateUI();
       }
 
       function triggerActiveState(id) {
-        
+        eventsInventory = eventsInventory.map((item) => {
+          if (item.id === id) {
+            item.status = "Active";
+          }
+          return item;
+        });
+        localStorage.setItem("eventsData", JSON.stringify(eventsInventory));
+        updateUI();
       }
 
-      
       function updateUI() {
         const activeEventsCount = eventsInventory.filter(
           (e) => e.status === "Active",
@@ -678,23 +689,22 @@
             tr.className =
               "border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50/50 dark:hover:bg-slate-800/30 transition-colors";
             tr.innerHTML = `
-                        <td class="py-4 px-2 font-semibold text-gray-900 dark:text-white">${item.name} <span class="block text-xs font-normal text-gray-400 mt-0.5">ID: ${item.eventIdCode}</span></td>
-                        <td class="py-4 px-2 text-gray-600 dark:text-gray-300">${item.venue}</td>
-                        <td class="py-4 px-2 font-mono text-xs text-gray-500 dark:text-gray-400">${item.mappingId}</td>
-                        <td class="py-4 px-2 text-right">
-                            <div class="flex items-center justify-end gap-2">
-                                <button onclick="triggerBroadcast('${item.id}')" class="text-xs font-semibold text-blue-500 hover:text-blue-700 bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 px-2.5 py-1.5 rounded-md transition-colors">Broadcast</button>
-                                <button onclick="triggerActiveState('${item.id}')" class="text-xs font-semibold text-green-500 hover:text-green-700 bg-green-50 dark:bg-green-500/10 hover:bg-green-100 px-2.5 py-1.5 rounded-md transition-colors">Active</button>
-                                <button onclick="deleteEvent('${item.id}')" class="text-xs font-semibold text-red-500 hover:text-red-700 bg-red-50 dark:bg-red-500/10 hover:bg-red-100 px-2.5 py-1.5 rounded-md transition-colors">Delete</button>
-                            </div>
-                        </td>
-                    `;
+                <td class="py-4 px-2 font-semibold text-gray-900 dark:text-white">${item.name} <span class="block text-xs font-normal text-gray-400 mt-0.5">ID: ${item.eventIdCode}</span></td>
+                <td class="py-4 px-2 text-gray-600 dark:text-gray-300">${item.venue}</td>
+                <td class="py-4 px-2 font-mono text-xs text-gray-500 dark:text-gray-400">${item.mappingId}</td>
+                <td class="py-4 px-2 text-right">
+                    <div class="flex items-center justify-end gap-2">
+                        <button onclick="triggerBroadcast('${item.id}')" class="text-xs font-semibold text-blue-500 hover:text-blue-700 bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 px-2.5 py-1.5 rounded-md transition-colors">Broadcast</button>
+                        <button onclick="triggerActiveState('${item.id}')" class="text-xs font-semibold text-green-500 hover:text-green-700 bg-green-50 dark:bg-green-500/10 hover:bg-green-100 px-2.5 py-1.5 rounded-md transition-colors">Active</button>
+                        <button onclick="deleteEvent('${item.id}')" class="text-xs font-semibold text-red-500 hover:text-red-700 bg-red-50 dark:bg-red-500/10 hover:bg-red-100 px-2.5 py-1.5 rounded-md transition-colors">Delete</button>
+                    </div>
+                </td>
+            `;
             inventoryTableBody.appendChild(tr);
           });
         }
       }
 
-      
       const themeToggleBtn = document.getElementById("theme-toggle");
       themeToggleBtn.addEventListener("click", function () {
         if (document.documentElement.classList.contains("dark")) {
